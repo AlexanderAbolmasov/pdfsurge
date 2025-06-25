@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Surge</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>PDF Surge</h1>
+        </header>
+
+        <main class="main-content">
+            <!-- Левая колонка с загрузкой файлов -->
+            <div class="upload-column">
+                <div class="upload-section">
+                    <div class="upload-area" id="uploadArea">
+                        <div class="upload-content">
+                            <div class="upload-icon">📄</div>
+                            <h3>Добавьте PDF файлы</h3>
+                            <p>Перетащите файлы сюда или нажмите для выбора<br>
+                            <small>Можно добавлять файлы постепенно</small></p>
+                            <input type="file" id="fileInput" multiple accept=".pdf" style="display: none;">
+                        </div>
+                    </div>
+
+                    <div class="file-list" id="fileList"></div>
+
+                    <button class="btn btn-primary" id="processBtn" disabled>
+                        Сформировать отчет
+                    </button>
+                </div>
+            </div>
+
+            <!-- Правая колонка с отчетом -->
+            <div class="report-column">
+                <div class="report-section" id="reportSection">
+                    <div class="report-header">
+                        <h2>Медицинский отчет</h2>
+                        <button class="btn btn-secondary" id="copyBtn" style="display: none;">
+                            Скопировать в буфер
+                        </button>
+                    </div>
+
+                    <div class="report-content">
+                        <textarea id="reportText" placeholder="Отчет появится здесь после обработки файлов..."></textarea>
+                    </div>
+
+                    <button class="btn btn-primary" id="newReportBtn" style="display: none;">
+                        Создать новый отчет
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- Индикатор загрузки -->
+        <div class="loading" id="loading" style="display: none;">
+            <div class="spinner"></div>
+            <p>Обработка документов...</p>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
