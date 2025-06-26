@@ -33,7 +33,7 @@ def create_app():
     )
 
     # Импорт и регистрация маршрутов
-    from .routes import init_routes
+    from routes import init_routes
     init_routes(app)
 
     return app
