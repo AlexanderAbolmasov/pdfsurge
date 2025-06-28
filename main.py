@@ -34,7 +34,7 @@ except Exception as e:
         return jsonify({
             "status": "fallback",
             "message": "Main app failed to load",
-            "error": str(e)
+            "error": "Application failed to initialize"
         })
 
 

@@ -49,4 +49,4 @@ class YandexGPTService:
                 return result['result']['alternatives'][0]['message']['text']
             else:
                 logger.error(f"Yandex GPT API error: {response.status_code}")
-                return f"ОШИБКА: Yandex GPT
+                return f"ОШИБКА: Yandex GPT API вернул код {response.status_code}"
