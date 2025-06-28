@@ -4,11 +4,13 @@ from config import Config
 import logging
 import os
 
-
 def create_app():
+    # Получаем абсолютный путь к директории с app_factory.py
+    basedir = os.path.abspath(os.path.dirname(__file__))
+
     app = Flask(__name__,
-                template_folder='app/templates',
-                static_folder='app/static')
+           template_folder=os.path.join(basedir, 'app', 'templates'),
+           static_folder=os.path.join(basedir, 'app', 'static'))
     app.config.from_object(Config)
 
     # Создаем папку для загрузок если её нет
