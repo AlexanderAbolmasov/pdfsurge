@@ -1,6 +1,5 @@
 import requests
-import json
-import logging
+import logging  # Убрать import json - он не используется
 from config import Config
 
 logger = logging.getLogger(__name__)
@@ -10,7 +9,7 @@ class GrokService:
     def __init__(self):
         self.api_key = Config.GROK_API_KEY
         self.base_url = "https://api.x.ai/v1"
-        self.model = "grok-3-mini-beta"  # Используем легкую модель
+        self.model = "grok-3-mini-beta"
 
     def generate_report(self, system_prompt, user_prompt):
         """Генерация отчета с помощью Grok API"""
@@ -42,7 +41,6 @@ class GrokService:
             }
 
             logger.info(f"Sending request to Grok API with model: {self.model}")
-
             response = requests.post(
                 f"{self.base_url}/chat/completions",
                 headers=headers,
