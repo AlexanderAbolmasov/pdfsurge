@@ -10,7 +10,7 @@ print(f"Current directory: {current_dir}")
 print(f"Files in directory: {os.listdir(current_dir)}")
 
 try:
-    from __init__ import create_app
+    from app_factory import create_app
 
     print("✓ Successfully imported create_app")
 
@@ -35,7 +35,7 @@ except Exception as e:
         return jsonify({
             "status": "fallback",
             "message": "Main app failed to load",
-            "error": str(e)
+            "error": "Import error occurred"
         })
 
 
@@ -48,4 +48,3 @@ if __name__ == "__main__":
     port = int(os.environ.get('PORT', 8000))
     print(f"Starting development server on port: {port}")
     app.run(host='0.0.0.0', port=port, debug=False)
-app = create_app()
