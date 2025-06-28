@@ -10,7 +10,7 @@ class GrokService:
     def __init__(self):
         self.api_key = Config.GROK_API_KEY
         self.base_url = "https://api.x.ai/v1"
-        self.model = "grok-3-beta"  # Используем флагманскую модель
+        self.model = "xAI Grok-3 mini beta"  # Используем легкую модель
 
     def generate_report(self, system_prompt, user_prompt):
         """Генерация отчета с помощью Grok API"""
