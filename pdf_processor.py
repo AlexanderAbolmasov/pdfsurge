@@ -14,35 +14,9 @@ logger = logging.getLogger(__name__)
 
 class PDFProcessor:
     def __init__(self):
-        # Автоматическое определение пути к Tesseract
-        import shutil
-        import subprocess
-
-        tesseract_path = shutil.which('tesseract')
-
-        if tesseract_path:
-            pytesseract.pytesseract.tesseract_cmd = tesseract_path
-            logger.info(f"Tesseract found at: {tesseract_path}")
-        else:
-            # Попробовать стандартные пути
-            possible_paths = [
-                '/usr/bin/tesseract',  # Ubuntu/Debian сервер
-                '/opt/homebrew/bin/tesseract',  # Mac M1
-                '/usr/local/bin/tesseract',  # Mac Intel
-                'tesseract'  # В PATH
-            ]
-
-            for path in possible_paths:
-                try:
-                    subprocess.run([path, '--version'], check=True, capture_output=True)
-                    pytesseract.pytesseract.tesseract_cmd = path
-                    logger.info(f"Tesseract found at: {path}")
-                    break
-                except:
-                    continue
-            else:
-                logger.error("Tesseract not found in any standard location")
-
+        # В Docker контейнере Tesseract всегда находится по стандартному пути
+        pytesseract.pytesseract.tesseract_cmd = '/usr/bin/tesseract'
+        logger.info("Tesseract configured for Docker container at /usr/bin/tesseract")
         self.deskew_processor = DeskewProcessor()
 
     def extract_text_pymupdf(self, pdf_path):
