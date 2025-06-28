@@ -11,6 +11,7 @@ def create_app():
     app = Flask(__name__,
                 template_folder='app/templates',
                 static_folder='app/static')
+    app.logger.setLevel(logging.DEBUG)
     app.config.from_object(Config)
 
     # Создаем папку для загрузок если её нет
