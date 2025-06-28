@@ -5,7 +5,7 @@ import uuid
 from flask import render_template, request, jsonify, current_app
 from werkzeug.utils import secure_filename
 
-from grok_service import GrokService
+from yandex_gpt_service import YandexGPTService
 from pdf_merger import PDFMerger
 from pdf_processor import PDFProcessor
 from prompts import get_system_prompt, get_user_prompt
@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 def init_routes(app):
     pdf_processor = PDFProcessor()
-    ai_service = GrokService()
+    ai_service = YandexGPTService()
     pdf_merger = PDFMerger()
 
     @app.route('/')
