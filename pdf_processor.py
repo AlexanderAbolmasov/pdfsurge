@@ -7,7 +7,6 @@ import logging
 import os
 from deskew_processor import DeskewProcessor
 
-logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
