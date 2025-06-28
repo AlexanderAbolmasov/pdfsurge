@@ -9,8 +9,8 @@ def create_app():
     basedir = os.path.abspath(os.path.dirname(__file__))
 
     app = Flask(__name__,
-           template_folder=os.path.join(basedir, 'app', 'templates'),
-           static_folder=os.path.join(basedir, 'app', 'static'))
+                template_folder='app/templates',
+                static_folder='app/static')
     app.config.from_object(Config)
 
     # Создаем папку для загрузок если её нет
