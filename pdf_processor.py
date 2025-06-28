@@ -12,8 +12,8 @@ logger = logging.getLogger(__name__)
 
 class PDFProcessor:
     def __init__(self):
-        # Настройка Tesseract для Mac
-        pytesseract.pytesseract.tesseract_cmd = '/opt/homebrew/bin/tesseract'
+        # Настройка Tesseract для контейнера
+        pytesseract.pytesseract.tesseract_cmd = '/usr/bin/tesseract'
         self.deskew_processor = DeskewProcessor()
 
     def extract_text_pymupdf(self, pdf_path):
