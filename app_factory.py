@@ -6,7 +6,9 @@ import os
 
 
 def create_app():
-    app = Flask(__name__)
+    app = Flask(__name__,
+                template_folder='app/templates',
+                static_folder='app/static')
     app.config.from_object(Config)
 
     # Создаем папку для загрузок если её нет
@@ -29,8 +31,7 @@ def create_app():
         handlers=[
             logging.FileHandler('logs/app.log'),
             logging.StreamHandler()
-        ]
-    )
+        ])
 
     # Импорт и регистрация маршрутов
     from routes import init_routes
