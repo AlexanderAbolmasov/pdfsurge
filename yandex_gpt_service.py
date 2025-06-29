@@ -4,6 +4,7 @@ from config import Config
 
 logger = logging.getLogger(__name__)
 
+
 class YandexGPTService:
     def __init__(self):
         self.api_key = Config.YANDEX_API_KEY
