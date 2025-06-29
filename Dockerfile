@@ -28,6 +28,12 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
+# ДОБАВЛЯЕМ: Проверка размера статических файлов
+RUN echo "=== Checking static files ===" && \
+    ls -la app/static/js/main.js && \
+    wc -c app/static/js/main.js && \
+    echo "=== End check ==="
+
 RUN mkdir -p logs uploads
 
 # Проверяем доступность языков
