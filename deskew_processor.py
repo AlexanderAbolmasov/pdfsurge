@@ -85,12 +85,22 @@ class DeskewProcessor:
         """Дескьюинг страницы PDF"""
         try:
             # Конвертация страницы в изображение
-            pix = pdf_page.get_pixmap(matrix=fitz.Matrix(2.0, 2.0))  # Увеличиваем разрешение
+            pix = pdf_page.get_pixmap(matrix=fitz.Matrix(1.0, 1.0))  # Увеличиваем разрешение
             img_data = pix.tobytes("png")
 
             # Преобразование в OpenCV формат
             nparr = np.frombuffer(img_data, np.uint8)
             image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+
+            # ДОБАВЛЯЕМ: Проверка размера изображения
+            height, width = image.shape[:2]
+            if width > 3000 or height > 3000:
+                # Уменьшаем слишком большие изображения
+                scale = min(3000 / width, 3000 / height)
+                new_width = int(width * scale)
+                new_height = int(height * scale)
+                image = cv2.resize(image, (new_width, new_height), interpolation=cv2.INTER_AREA)
+                logger.info(f"Resized image from {width}x{height} to {new_width}x{new_height}")
 
             # Определение угла наклона
             skew_angle = self.detect_skew_angle(image)
