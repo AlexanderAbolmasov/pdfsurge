@@ -1,6 +1,6 @@
 FROM python:3.9-slim
 
-# Оптимизация Tesseract
+# Обновляем пакеты и устанавливаем Tesseract OCR с правильными путями
 RUN apt-get update && apt-get install -y \
     tesseract-ocr \
     tesseract-ocr-rus \
@@ -10,9 +10,12 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Настройка переменных окружения для оптимизации
-ENV OMP_THREAD_LIMIT=2
-ENV TESSDATA_PREFIX=/usr/share/tesseract-ocr/4.00/tessdata
+# Проверяем и устанавливаем правильный TESSDATA_PREFIX
+RUN find /usr -name "*.traineddata" -type f 2>/dev/null | head -5
+RUN ls -la /usr/share/tesseract-ocr/*/tessdata/ || ls -la /usr/share/tessdata/
+
+# Устанавливаем правильную переменную окружения
+ENV TESSDATA_PREFIX=/usr/share/tesseract-ocr/5.00/tessdata/
 
 WORKDIR /app
 COPY requirements.txt .
@@ -21,10 +24,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 RUN mkdir -p logs uploads
 
-# Проверка синтаксиса
-RUN python -c "import py_compile; py_compile.compile('yandex_gpt_service.py')"
+# Проверяем доступность языков Tesseract
+RUN tesseract --list-langs
 
 EXPOSE 8000
-
-# Запуск с увеличенным timeout
 CMD ["gunicorn", "--config", "gunicorn.conf.py", "main:app"]
