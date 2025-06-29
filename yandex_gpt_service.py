@@ -46,7 +46,18 @@ class YandexGPTService:
 
             if response.status_code == 200:
                 result = response.json()
+                logger.info("Successfully received response from Yandex GPT API")
                 return result['result']['alternatives'][0]['message']['text']
             else:
                 logger.error(f"Yandex GPT API error: {response.status_code}")
                 return f"ОШИБКА: Yandex GPT API вернул код {response.status_code}"
+
+        except requests.exceptions.Timeout:
+            logger.error("Yandex GPT API timeout")
+            return "ОШИБКА: Превышено время ожидания ответа от Yandex GPT API"
+        except requests.exceptions.ConnectionError:
+            logger.error("Yandex GPT API connection error")
+            return "ОШИБКА: Не удается подключиться к Yandex GPT API"
+        except Exception as e:
+            logger.error(f"Error calling Yandex GPT API: {e}")
+            return f"ОШИБКА: Неожиданная ошибка при обращении к Yandex GPT API: {str(e)}"
