@@ -6,7 +6,7 @@ workers = int(os.environ.get('GUNICORN_WORKERS', 2))
 worker_class = "gthread"  # Лучше для I/O операций
 threads = 3
 
-timeout = 300
+timeout = 600
 graceful_timeout = 60
 keepalive = 2
 

@@ -22,7 +22,6 @@ def init_routes(app):
 
     @app.route('/upload', methods=['POST'])
     def upload_files():
-        global uploaded_files
         try:
             if 'files' not in request.files:
                 return jsonify({'error': 'Не выбраны файлы'}), 400
