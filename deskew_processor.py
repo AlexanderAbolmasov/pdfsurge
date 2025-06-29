@@ -85,7 +85,7 @@ class DeskewProcessor:
         """Дескьюинг страницы PDF"""
         try:
             # Конвертация страницы в изображение
-            pix = pdf_page.get_pixmap(matrix=fitz.Matrix(1.0, 1.0))  # Увеличиваем разрешение
+            pix = pdf_page.get_pixmap(matrix=fitz.Matrix(1.0, 1.0))  # Увеличиваем разрешение (уменьшил после деплоя)
             img_data = pix.tobytes("png")
 
             # Преобразование в OpenCV формат

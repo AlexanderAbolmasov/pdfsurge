@@ -1,6 +1,6 @@
 FROM python:3.9-slim
 
-# Обновляем пакеты и устанавливаем Tesseract OCR
+# Установка Tesseract OCR
 RUN apt-get update && apt-get install -y \
     tesseract-ocr \
     tesseract-ocr-rus \
@@ -10,33 +10,29 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Находим правильный путь к tessdata
-RUN echo "=== Searching for tessdata files ===" && \
-    find /usr -name "*.traineddata" -type f 2>/dev/null | head -10 && \
-    echo "=== Checking common tessdata locations ===" && \
-    ls -la /usr/share/tesseract-ocr/ 2>/dev/null || echo "No /usr/share/tesseract-ocr/" && \
-    ls -la /usr/share/tessdata/ 2>/dev/null || echo "No /usr/share/tessdata/" && \
-    echo "=== Tesseract version and config ===" && \
-    tesseract --version && \
-    tesseract --print-parameters 2>/dev/null | grep tessdata || echo "Cannot get tessdata path"
-
-# НЕ устанавливаем TESSDATA_PREFIX - пусть Tesseract использует системные настройки
-# ENV TESSDATA_PREFIX=/usr/share/tesseract-ocr/5.00/tessdata/
-
 WORKDIR /app
+
+# Копируем requirements и устанавливаем зависимости
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . .
-# ДОБАВЛЯЕМ: Проверка размера статических файлов
-RUN echo "=== Checking static files ===" && \
+# ИСПРАВЛЕНИЕ: Копируем файлы более явно
+COPY *.py ./
+COPY gunicorn.conf.py ./
+
+# Копируем директорию app отдельно
+COPY app/ ./app/
+
+# ПРОВЕРКА: Размер статических файлов ПОСЛЕ копирования
+RUN echo "=== Checking static files after copy ===" && \
     ls -la app/static/js/main.js && \
     wc -c app/static/js/main.js && \
+    head -5 app/static/js/main.js && \
     echo "=== End check ==="
 
 RUN mkdir -p logs uploads
 
-# Проверяем доступность языков
+# Проверяем Tesseract
 RUN echo "=== Available languages ===" && \
     tesseract --list-langs
 
