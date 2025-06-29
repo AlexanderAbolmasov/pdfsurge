@@ -11,6 +11,11 @@ def create_app():
     app = Flask(__name__,
                 template_folder='app/templates',
                 static_folder='app/static')
+    # ИСПРАВЛЕНИЕ: Используем абсолютные пути
+    app = Flask(__name__,
+                template_folder=os.path.join(basedir, 'app', 'templates'),
+                static_folder=os.path.join(basedir, 'app', 'static'),
+                static_url_path='/static')  # ДОБАВЛЯЕМ: явный URL путь
     app.config.from_object(Config)
 
     # Создаем папку для загрузок если её нет
@@ -34,6 +39,17 @@ def create_app():
             logging.FileHandler('logs/app.log'),
             logging.StreamHandler()
         ])
+    # ДОБАВЛЯЕМ: Отладочная информация о статических файлах
+    logger = logging.getLogger(__name__)
+    static_path = os.path.join(basedir, 'app', 'static')
+    logger.info(f"Static folder path: {static_path}")
+    logger.info(f"Static folder exists: {os.path.exists(static_path)}")
+
+    if os.path.exists(static_path):
+        js_path = os.path.join(static_path, 'js', 'main.js')
+        logger.info(f"main.js exists: {os.path.exists(js_path)}")
+        if os.path.exists(js_path):
+            logger.info(f"main.js size: {os.path.getsize(js_path)} bytes")
 
     # Импорт и регистрация маршрутов
     from routes import init_routes
