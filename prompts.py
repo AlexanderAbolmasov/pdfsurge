@@ -1,5 +1,7 @@
 def get_system_prompt():
     return "Врач-онколог."
+
+
 def get_user_prompt(extracted_text):
     return f"""
 Ты врач-онколог и гематолог с 20-летним стажем. Проанализируй медицинские документы и создай структурированный отчет.
@@ -40,7 +42,3 @@ def get_user_prompt(extracted_text):
 
 Создай отчет:
 """
-
-# System промпт оставляем пустым или None
-def get_system_prompt():
-    return None
